@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from scipy.io import wavfile
 import pandas as pd
 import soundfile as sf
+import time
+
 
 def ruidoRosa_voss(nrows, ncols):
     array = np.full((nrows, ncols), np.nan)
@@ -39,10 +41,20 @@ def get_data():
 def ruido_rosa_user(t,fs,total):
     sf.write("Ruido rosa.wav",total,fs,format="WAV",subtype="PCM_16")
     return
-
+def get_plot(t,fs,total):
+    m=np.linspace(0,t,fs*t)
+    plt.plot(m,total)
+    plt.show()
+    return
 #main
-
 t,fs=get_data()
+inicio = time.time()
+
+
 total=ruidoRosa_voss(t*fs,16)
 ruido_rosa_user(t,fs,total)
+get_plot(t,fs,total)
 
+
+fin = time.time()
+print("La latencia de la funcion es :",fin-inicio)
