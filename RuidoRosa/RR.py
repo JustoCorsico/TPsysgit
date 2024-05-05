@@ -1,14 +1,9 @@
-<<<<<<< HEAD
-Ruido rosa
-=======
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
 import pandas as pd
 import soundfile as sf
-
-nrows = 20
-ncols = 35
 
 def ruidoRosa_voss(nrows, ncols):
     array = np.full((nrows, ncols), np.nan)
@@ -23,7 +18,7 @@ def ruidoRosa_voss(nrows, ncols):
     array[rows, cols] = np.random.random(n)
     
     df = pd.DataFrame(array)
-    filled = df.fillna(method='ffill', axis=0)
+    filled = df.ffill(axis=0)
     total = filled.sum(axis=1)
     
     ## Centrado de el array en 0
@@ -36,5 +31,18 @@ def ruidoRosa_voss(nrows, ncols):
     # Agregar generación de archivo de audio .wav
     
     return total
+def get_data():
+    t=int(input("Ingrese tiempo de duracion del ruido rosa:"))
+    fs=int(input("Ingrese la frecuencia de muestreo"))
+    return(t,fs)
 
->>>>>>> ramavalen
+def ruido_rosa_user(t,fs,total):
+    sf.write("Ruido rosa.wav",total,fs,format="WAV",subtype="PCM_16")
+    return
+
+#main
+
+t,fs=get_data()
+total=ruidoRosa_voss(t*fs,16)
+ruido_rosa_user(t,fs,total)
+
