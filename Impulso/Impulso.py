@@ -28,14 +28,16 @@ def get_signal(f1, f2, T):
     f = np.sin(K*(np.exp(t/L)-1))
     return (f, t, R, K, L, w1, fs)
 
-def norm_signal(f):
+def norm_signal(f,kt):
     g = f / np.max(np.abs(f))
-    return (g)
+    j = kt / np.max(np.abs(kt))
+    return (g,j)
 
-def get_signalwav(n):
+def get_signalwav(n,fs,j):
     audio1 = (n * np.iinfo(np.int16).max).astype(np.int16)
-    wavfile.write("Sine Sweep.wav", fs, audio1)
-
+    wavfile.write("Sine Sweep.wav",fs, audio1)
+    audio2 = (j * np.iinfo(np.int16).max).astype(np.int16)
+    wavfile.write("Filtro inverso.wav",fs, audio2)
 # Filtro Inverso
 
 def get_fi(f, K, L, T, t, w1):
@@ -49,29 +51,33 @@ def get_convolve(f, kt):
     conv = np.convolve(f, kt)
     return(conv)
 
-def get_plot(t, f, ssi, kt, conv):
+def get_plot(t, f, kt, ssi, conv):
     plt.plot(t,f)
+    plt.xlim((0,2))
     plt.show()
     plt.plot(t, ssi)
+    plt.xlim((0,2))
     plt.show()
     plt.plot(t, kt)
+    plt.xlim((0,2))
     plt.show()
     plt.plot(conv)
     plt.show()
-    plt.xlim((0,0.005))
+    
     return ()
 
 # MAIN
+
 
 f1, f2, T = get_data()
 
 f, t, R, K, L, w1, fs = get_signal(f1, f2, T)
 
-n = norm_signal(f)
-
-get_signalwav(f)
-
 ssi, kt = get_fi(f, K, L, T, t, w1)
+
+n,j = norm_signal(f,kt)
+
+get_signalwav(n,fs,kt)
 
 conv = get_convolve(f, kt)
 
