@@ -1,4 +1,3 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
@@ -35,7 +34,7 @@ def ruidoRosa_voss(nrows, ncols):
     return total
 def get_data():
     t=int(input("Ingrese tiempo de duracion del ruido rosa:"))
-    fs=int(input("Ingrese la frecuencia de muestreo"))
+    fs=int(input("Ingrese la frecuencia de muestreo:"))
     return(t,fs)
 
 def ruido_rosa_user(t,fs,total):
@@ -44,17 +43,15 @@ def ruido_rosa_user(t,fs,total):
 def get_plot(t,fs,total):
     m=np.linspace(0,t,fs*t)
     plt.plot(m,total)
+    plt.xlim=(0,t)
+    plt.xlabel("Tiempo(S)")
+    plt.ylabel("Amplitud")
     plt.show()
     return
 #main
 t,fs=get_data()
-inicio = time.time()
-
 
 total=ruidoRosa_voss(t*fs,16)
 ruido_rosa_user(t,fs,total)
 get_plot(t,fs,total)
 
-
-fin = time.time()
-print("La latencia de la funcion es :",fin-inicio)

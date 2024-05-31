@@ -15,7 +15,7 @@ def get_data():
 def playrecord(mic,spkr,t):
     sd.default.samplerate = frec
     sd.default.device=mic,spkr
-    sd.default.channels=2
+    sd.default.channels=1
     myrecording = sd.playrec(data,channels=1)
     time.sleep(t)
     sd.stop() 
